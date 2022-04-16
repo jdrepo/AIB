@@ -1,0 +1,130 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ScriptUri": {
+            "type": "string",
+            "metadata": {
+                "description": "Location of basic powershell scripts to customize your image"
+            }
+        },
+        "UserAssignedId": {
+            "type": "string"
+        },
+        "SigResourceId": {
+            "type": "string"
+        },
+        "SigImageDefinition": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the SIG image"
+            }
+        },
+        "SigImageVersion": {
+            "type": "string",
+            "metadata": {
+                "description": "Version of the SIG image"
+            }
+        },
+        "SigSourceImageID": {
+            "type": "string",
+            "metadata": {
+                "description": "The source Image ID that will be used to create the image"
+            }
+        }
+    },
+    "variables": {
+        "imageTemplateName": "[concat(parameters('SigImageDefinition'),'_',parameters('SigImageVersion'))]",
+        "SIGId": "[concat(parameters('SigResourceId'),'/images/',parameters('SigImageDefinition'),'/versions/',parameters('SigImageVersion'))]"
+    },
+    "resources": [
+        {
+            "name": "[variables('imageTemplateName')]",
+            "type": "Microsoft.VirtualMachineImages/imageTemplates",
+            "apiVersion": "2020-02-14",
+            "location": "[resourcegroup().location]",
+            "dependsOn": [],
+            "properties": {
+                "buildTimeoutInMinutes": 100,
+                "source": {
+                    "type": "SharedImageVersion",
+                    "imageVersionId": "[parameters('SigSourceImageID')]"
+                },
+                "vmProfile": {
+                    "vmSize": "Standard_D8_v3"
+                },
+                "customize": [
+                    {
+                        "type": "PowerShell",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "name": "Invoke Optimize Script",
+                        "inline": [
+                            "[concat('$ScriptFromGitHub = Invoke-WebRequest ',parameters('ScriptUri'),' -UseBasicParsing')]",
+                            "Invoke-Expression $($ScriptFromGitHub.Content)"
+                        ]
+                    },
+                    {
+                        "type": "WindowsRestart",
+                        "restartTimeout": "30m"
+                    },
+                    {
+                        "type": "PowerShell",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "name": "Retry failed attempts",
+                        "inline": [
+                            "[concat('$ScriptFromGitHub = Invoke-WebRequest ',parameters('ScriptUri'),' -UseBasicParsing')]",
+                            "Invoke-Expression $($ScriptFromGitHub.Content)"
+                        ]
+                    },
+                    {
+                        "type": "PowerShell",
+                        "name": "installFsLogix",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/azure/azvmimagebuilder/master/solutions/14_Building_Images_WVD/0_installConfFsLogix.ps1"
+                    },
+                    {
+                        "type": "WindowsRestart",
+                        "restartTimeout": "30m"
+                    },
+                    {
+                        "type": "PowerShell",
+                        "runElevated": true,
+                        "name": "DeprovisioningScript",
+                        "inline": [
+                            " ((Get-Content -path C:\\DeprovisioningScript.ps1 -Raw) -replace 'Sysprep.exe /oobe /generalize /quiet /quit','Sysprep.exe /oobe /generalize /quit /mode:vm' ) | Set-Content -Path C:\\DeprovisioningScript.ps1"
+                        ]
+                    }
+                ],
+                "distribute": [
+                    {
+                        "type": "SharedImage",
+                        "galleryImageId": "[variables('SIGId')]",
+                        "runOutputName": "AIBSIG",
+                        "artifactTags": {
+                            "source": "azureVmImageBuilder"
+                        },
+                        "replicationRegions": [
+                            "WestEurope",
+                            "NorthEurope"
+                        ]
+                    }
+                ]
+            },
+            "identity": {
+                "type": "UserAssigned",
+                "UserAssignedIdentities": {
+                    "[parameters('UserAssignedId')]": {}
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "ImageTemplateName": {
+            "type": "string",
+            "value": "[variables('imageTemplateName')]"
+        }
+    }
+}
