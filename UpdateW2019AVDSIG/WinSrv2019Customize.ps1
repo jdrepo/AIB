@@ -1,3 +1,7 @@
+Write-Host "Starting customizing"
+
+<#
+
 #This is a configuration script that needs to be run on the virtual machine
 
 #region supporting functions
@@ -42,3 +46,4 @@ Write-Host "ImagebuilderDefault: Ended WVDOptimizer"
 
 
 #endregion
+#>
