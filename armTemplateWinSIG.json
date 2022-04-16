@@ -58,7 +58,7 @@
                     {
                         "type": "PowerShell",
                         "name": "Install Remote Desktop Session Host",
-                        "RunElevated" : false,
+                        "RunElevated" : true,
                         "runAsSystem" : true,
                         "inline": [
                             "Install-WindowsFeature Remote-Desktop-Services",
