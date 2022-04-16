@@ -42,7 +42,7 @@
             "vmProfile": 
                     {
                     "vmSize": "Standard_D1_v2",
-                    "osDiskSizeGB": 30
+                    "osDiskSizeGB": 40
                     },
         
             "source": {
@@ -57,27 +57,9 @@
 
                     {
                         "type": "PowerShell",
-                        "name": "CreateBuildPath",
-                        "scriptUri": "https://raw.githubusercontent.com/danielsollondon/azvmimagebuilder/master/testPsScript.ps1"
-                    },
-                    {
-                        "type": "WindowsRestart",
-                        "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > c:\\buildArtifacts\\azureImageBuilderRestart.txt",
-                        "restartTimeout": "5m"
-                    },
-                    {
-                        "type": "File",
-                        "name": "downloadBuildArtifacts",
-                        "sourceUri": "https://raw.githubusercontent.com/danielsollondon/azvmimagebuilder/master/quickquickstarts/exampleArtifacts/buildArtifacts/index.html",
-                        "destination":"c:\\buildArtifacts\\index.html"
-                    },
-        
-                    {
-                        "type": "PowerShell",
-                        "name": "settingUpMgmtAgtPath",
+                        "name": "Install Remote Desktop Session Host",
                         "inline": [
-                            "mkdir c:\\buildActions",
-                            "echo Azure-Image-Builder-Was-Here  > c:\\buildActions\\buildActionsOutput.txt"
+                            "Install-WindowsFeature Remote-Desktop-Services",
                         ]
                     },
                         
@@ -103,8 +85,7 @@
                         "baseosimg": "windows2019"
                     },
                     "replicationRegions": [
-                      "<region1>",
-                      "<region2>"
+                      "<region1>"
                     ]
                 }
             ]
