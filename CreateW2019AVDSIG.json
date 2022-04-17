@@ -87,7 +87,7 @@
             [
                 {   
                     "type": "SharedImage",
-                    "galleryImageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>/versions/<version>",
+                    "galleryImageId": [concat '/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>/versions/,'<version>"],
                     "runOutputName": "<runOutputName>",
                     "artifactTags": {
                         "source": "azureVmImageBuilder",
