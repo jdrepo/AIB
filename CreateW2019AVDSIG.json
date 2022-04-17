@@ -5,6 +5,9 @@
       "imageTemplateName": {
         "type": "string"
         },
+      "imageversion": {
+        "type": "string"
+      },
         "api-version": {
           "type": "string"
         },
