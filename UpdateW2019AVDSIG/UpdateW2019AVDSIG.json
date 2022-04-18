@@ -83,19 +83,11 @@
                         "name": "installFsLogix",
                         "runElevated": true,
                         "runAsSystem": true,
-                        "scriptUri": "https://raw.githubusercontent.com/azure/azvmimagebuilder/master/solutions/14_Building_Images_WVD/0_installConfFsLogix.ps1"
+                        "scriptUri": "https://raw.githubusercontent.com/jdrepo/AIB/main/InstallFSLogix.ps1"
                     },
                     {
                         "type": "WindowsRestart",
                         "restartTimeout": "30m"
-                    },
-                    {
-                        "type": "PowerShell",
-                        "runElevated": true,
-                        "name": "DeprovisioningScript",
-                        "inline": [
-                            " ((Get-Content -path C:\\DeprovisioningScript.ps1 -Raw) -replace 'Sysprep.exe /oobe /generalize /quiet /quit','Sysprep.exe /oobe /generalize /quit /mode:vm' ) | Set-Content -Path C:\\DeprovisioningScript.ps1"
-                        ]
                     }
                 ],
                 "distribute": [
@@ -107,8 +99,7 @@
                             "source": "azureVmImageBuilder"
                         },
                         "replicationRegions": [
-                            "WestEurope",
-                            "NorthEurope"
+                            "WestEurope"
                         ]
                     }
                 ]
