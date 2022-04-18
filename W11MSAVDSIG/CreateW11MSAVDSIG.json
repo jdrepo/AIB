@@ -42,7 +42,7 @@
             "vmProfile": 
                     {
                     "vmSize": "Standard_D1_v2",
-                    "osDiskSizeGB": 40
+                    "osDiskSizeGB": 0
                     },
         
             "source": {
@@ -54,16 +54,6 @@
                 
             },
             "customize": [
-
-                    {
-                        "type": "PowerShell",
-                        "name": "Install Remote Desktop Session Host",
-                        "RunElevated" : true,
-                        "runAsSystem" : true,
-                        "inline": [
-                            "Install-WindowsFeature Remote-Desktop-Services",
-                        ]
-                    },
                     {
                         "type": "WindowsRestart",
                         "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > c:\\buildArtifacts\\azureImageBuilderRestart.txt",
