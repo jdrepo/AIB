@@ -87,6 +87,15 @@
                         "scriptUri": "https://raw.githubusercontent.com/jdrepo/AIB/main/InstallFSLogix.ps1"
                     },
                     {
+                        "type": "WindowsUpdate",
+                        "searchCriteria": "IsInstalled=0",
+                        "filters": [
+                            "exclude:$_.Title -like '*Preview*'",
+                            "include:$true"
+                                    ],
+                        "updateLimit": 40
+                    },
+                    {
                         "type": "WindowsRestart",
                         "restartTimeout": "30m"
                     }
