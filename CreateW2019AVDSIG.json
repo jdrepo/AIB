@@ -5,6 +5,9 @@
       "imageTemplateName": {
         "type": "string"
         },
+      "imageversion": {
+        "type": "string"
+      },
         "api-version": {
           "type": "string"
         },
@@ -84,7 +87,7 @@
             [
                 {   
                     "type": "SharedImage",
-                    "galleryImageId": "[concat ('/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>/versions/','<version>')]",
+                    "galleryImageId": "[concat ('/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>/versions/',parameters('imageversion'))]",
                     "runOutputName": "<runOutputName>",
                     "artifactTags": {
                         "source": "azureVmImageBuilder",
