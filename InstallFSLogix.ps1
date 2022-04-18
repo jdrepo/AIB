@@ -15,6 +15,11 @@ Expand-Archive $LocalPath\$installerFile -DestinationPath $LocalPath
 write-host 'AIB Customization: Download Fslogix installer finished'
 
 write-host 'AIB Customization: Start Fslogix installer'
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force -Verbose
-.\\FSLogixSetup.ps1 -ProfilePath \\wvdSMB\wvd -Verbose 
+$fslogix_deploy_status = Start-Process `
+    -FilePath "$LocalPath\x64\Release\FSLogixAppsSetup.exe" `
+    -ArgumentList "/install /quiet /norestart" `
+    -Wait `
+    -Passthru
+
 write-host 'AIB Customization: Finished Fslogix installer' 
+
