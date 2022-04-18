@@ -83,16 +83,12 @@
             "distribute": 
             [
                 {   
-                    "type": "SharedImage",
-                    "galleryImageId": "[concat ('/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>/versions/',parameters('imageversion'))]",
+                    "type": "VHD",
                     "runOutputName": "<runOutputName>",
                     "artifactTags": {
                         "source": "azureVmImageBuilder",
                         "baseosimg": "windows11ms"
                     },
-                    "replicationRegions": [
-                      "<region1>"
-                    ]
                 }
             ]
             }
