@@ -5,6 +5,9 @@
       "imageTemplateName": {
         "type": "string"
         },
+      "imageversion": {
+        "type": "string"
+      },
         "api-version": {
           "type": "string"
         },
@@ -44,16 +47,23 @@
                     "vmSize": "Standard_D1_v2",
                     "osDiskSizeGB": 0
                     },
-        
             "source": {
                 "type": "PlatformImage",
                     "publisher": "MicrosoftWindowsDesktop",
                     "offer": "windows-11",
                     "sku": "win11-21h2-avd",
-                    "version": "latest"
-                
+                    "version": "latest"         
             },
             "customize": [
+                    {
+                    "type": "PowerShell",
+                    "name": "GetAzCopy",
+                    "inline": [
+                      "New-Item -Type Directory -Path 'c:\\' -Name temp",
+                      "invoke-webrequest -uri 'https://aka.ms/downloadazcopy-v10-windows' -OutFile 'c:\\temp\\azcopy.zip'",
+                      "Expand-Archive 'c:\\temp\\azcopy.zip' 'c:\\temp'",
+                      "copy-item 'C:\\temp\\azcopy_windows_amd64_*\\azcopy.exe\\' -Destination 'c:\\temp'"]
+                    },
                     {
                         "type": "WindowsRestart",
                         "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > c:\\buildArtifacts\\azureImageBuilderRestart.txt",
@@ -74,11 +84,11 @@
             [
                 {   
                     "type": "SharedImage",
-                    "galleryImageId": "[concat ('/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>/versions/','<version>')]",
+                    "galleryImageId": "[concat ('/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>/versions/',parameters('imageversion'))]",
                     "runOutputName": "<runOutputName>",
                     "artifactTags": {
                         "source": "azureVmImageBuilder",
-                        "baseosimg": "windows2019"
+                        "baseosimg": "windows11ms"
                     },
                     "replicationRegions": [
                       "<region1>"
