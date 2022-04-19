@@ -88,7 +88,7 @@
                     "runOutputName": "<runOutputName>",
                     "artifactTags": {
                         "source": "azureVmImageBuilder",
-                        "baseosimg": "windows2019"
+                        "baseosimg": "windows11ms"
                     },
                     "replicationRegions": [
                       "<region1>"
