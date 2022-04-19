@@ -58,6 +58,8 @@
                     {
                     "type": "PowerShell",
                     "name": "GetAzCopy",
+                    "RunElevated" : true,
+                    "runAsSystem" : true,
                     "inline": [
                       "New-Item -Type Directory -Path 'c:\\' -Name temp",
                       "invoke-webrequest -uri 'https://aka.ms/downloadazcopy-v10-windows' -OutFile 'c:\\temp\\azcopy.zip'",
