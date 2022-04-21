@@ -75,9 +75,21 @@
                     },
                     {
                         "type": "WindowsRestart",
-                        "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > c:\\buildArtifacts\\azureImageBuilderRestart.txt",
+                        "restartCheckCommand": write-host 'restarting post FSLogix Install'",
                         "restartTimeout": "5m"
-                    },                    
+                    },
+                    {
+                        "type": "PowerShell",
+                        "name": "Install Teams",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/jdrepo/AIB/main/installteams.ps1"
+                    },
+                    {
+                        "type": "WindowsRestart",
+                        "restartCheckCommand": "write-host 'restarting post Teams Install'",
+                        "restartTimeout": "5m"
+                    },
                     {
                         "type": "WindowsUpdate",
                         "searchCriteria": "IsInstalled=0",
