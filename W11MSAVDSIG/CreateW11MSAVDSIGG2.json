@@ -75,7 +75,7 @@
                     },
                     {
                         "type": "WindowsRestart",
-                        "restartCheckCommand": write-host 'restarting post FSLogix Install'",
+                        "restartCheckCommand": "write-host 'restarting post FSLogix Install'",
                         "restartTimeout": "5m"
                     },
                     {
