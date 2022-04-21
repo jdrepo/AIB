@@ -52,7 +52,7 @@
                 "type": "PlatformImage",
                     "publisher": "MicrosoftWindowsServer",
                     "offer": "WindowsServer",
-                    "sku": "2022-Datacenter-smalldisk",
+                    "sku": "2022-Datacenter-smalldisk-g2",
                     "version": "latest"
                 
             },
