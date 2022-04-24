@@ -50,8 +50,8 @@
 
 
 # run script
-# .\optimize -WindowsVersion 2004 -Verbose
-.\Windows_VDOT.ps1 -Verbose -AcceptEULA
+# .\Windows_VDOT.ps1 -Verbose -AcceptEULA
+.\Windows_VDOT.ps1 -Verbose -AcceptEULA -Optimizations @('WindowsMediaPlayer','AppxPackages','ScheduledTasks','Autologgers','Services','NetworkOptimizations','LGPO','DiskCleanup')
 write-host 'AIB Customization: Finished OS Optimizations script'
  
  
