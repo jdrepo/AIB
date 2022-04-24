@@ -109,6 +109,7 @@
                     },
                     {
                         "type": "WindowsRestart",
+                         "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM",
                         "restartTimeout": "30m"
                     },
                     {
