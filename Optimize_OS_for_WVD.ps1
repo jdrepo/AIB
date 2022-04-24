@@ -15,7 +15,7 @@
  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force -Verbose
  Set-Location -Path C:\\Optimize\\Virtual-Desktop-Optimization-Tool-main
  
- <#
+ 
  
  # Patch: overide the REG UNLOAD, needs GC before, otherwise will Access Deny unload(see readme.md)
 
@@ -47,7 +47,7 @@
  $insert | ForEach-Object { $file.insert($_,"                 Write-Host 'Patch closing handles and runnng GC before reg unload' `n              `$newKey.Handle.close()` `n              [gc]::collect() `n                Start-Sleep -Seconds 15 ") }
  Set-Content $updatePath $file 
   
-#>
+
 
 # run script
 # .\optimize -WindowsVersion 2004 -Verbose
