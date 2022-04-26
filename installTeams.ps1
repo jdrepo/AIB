@@ -32,8 +32,8 @@
  
  # install Teams
  write-host 'AIB Customization: Install MS Teams'
- # $teamsURL = 'https://teams.microsoft.com/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true'
- $teamsURL = 'http://statics.teams.cdn.office.net/production-windows-x64/1.5.00.8070/Teams_windows_x64.msi'
+ $teamsURL = 'https://teams.microsoft.com/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true'
+ # $teamsURL = 'http://statics.teams.cdn.office.net/production-windows-x64/1.5.00.8070/Teams_windows_x64.msi'
  $teamsMsi = 'teams.msi'
  $outputPath = $LocalPath + '\' + $teamsMsi
  Invoke-WebRequest -Uri $teamsURL -OutFile $outputPath
