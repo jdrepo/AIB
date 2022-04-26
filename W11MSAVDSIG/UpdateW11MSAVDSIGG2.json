@@ -91,7 +91,7 @@
                         "name": "Install Teams",
                         "runElevated": true,
                         "runAsSystem": true,
-                        "scriptUri": "https://raw.githubusercontent.com/jdrepo/AIB/main/installTeams.ps1"
+                        "scriptUri": "https://raw.githubusercontent.com/jdrepo/AIB/main/install_update_teams.ps1"
                     },
                     {
                         "type": "WindowsRestart",
