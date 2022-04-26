@@ -16,7 +16,7 @@
  Set-Location -Path C:\\Optimize\\Virtual-Desktop-Optimization-Tool-main
  
  
- <#
+ 
  # Patch: overide the REG UNLOAD, needs GC before, otherwise will Access Deny unload(see readme.md)
 
  $updatePath= "C:\optimize\Virtual-Desktop-Optimization-Tool-main\Win10_VirtualDesktop_Optimize.ps1"
@@ -29,7 +29,7 @@
  }
 
  #add gc and sleep
- $insert | ForEach-Object { $file.insert($_,"                 Write-Host 'Patch closing handles and runnng GC before reg unload' `n              `$newKey.Handle.close()` `n              [gc]::collect() `n                Start-Sleep -Seconds 15 ") }
+ $insert | ForEach-Object { $file.insert($_,"                 Write-Host 'Patch closing handles and runnng GC before reg unload' `n              `$newKey.Handle.close()` `n              [gc]::collect() `n                [gc]::WaitForPendingFinalizers() ") }
  Set-Content $updatePath $file 
  
  # Patch: overide the REG UNLOAD, needs GC before, otherwise will Access Deny unload(see readme.md)
@@ -44,14 +44,14 @@
  }
 
  #add gc and sleep
- $insert | ForEach-Object { $file.insert($_,"                 Write-Host 'Patch closing handles and runnng GC before reg unload' `n              `$newKey.Handle.close()` `n              [gc]::collect() `n                Start-Sleep -Seconds 15 ") }
+ $insert | ForEach-Object { $file.insert($_,"                 Write-Host 'Patch closing handles and runnng GC before reg unload' `n              `$newKey.Handle.close()` `n              [gc]::collect() `n                [gc]::WaitForPendingFinalizers() ") }
  Set-Content $updatePath $file 
   
-#>
 
 # run script
-# .\Windows_VDOT.ps1 -Verbose -AcceptEULA
-.\Windows_VDOT.ps1 -Verbose -AcceptEULA -Optimizations @('WindowsMediaPlayer','AppxPackages','ScheduledTasks','Autologgers','Services','NetworkOptimizations','LGPO','DiskCleanup')
+#.\Windows_VDOT.ps1 -Verbose -AcceptEULA -Optimizations @('DefaultUserSettings')
+.\Windows_VDOT.ps1 -Verbose -AcceptEULA
+#.\Windows_VDOT.ps1 -Verbose -AcceptEULA -Optimizations @('WindowsMediaPlayer','AppxPackages','ScheduledTasks','Autologgers','Services','NetworkOptimizations','LGPO','DiskCleanup')
 write-host 'AIB Customization: Finished OS Optimizations script'
  
  
