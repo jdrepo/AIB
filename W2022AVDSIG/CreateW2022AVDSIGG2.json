@@ -57,7 +57,17 @@
                 
             },
             "customize": [
-
+                    {
+                        "type": "PowerShell",
+                        "name": "GetAzCopy",
+                        "RunElevated" : true,
+                        "runAsSystem" : true,
+                        "inline": [
+                          "New-Item -Type Directory -Path 'c:\\' -Name temp",
+                          "invoke-webrequest -uri 'https://aka.ms/downloadazcopy-v10-windows' -OutFile 'c:\\temp\\azcopy.zip'",
+                          "Expand-Archive 'c:\\temp\\azcopy.zip' 'c:\\temp'",
+                          "copy-item 'C:\\temp\\azcopy_windows_amd64_*\\azcopy.exe\\' -Destination 'c:\\temp'"]
+                    },
                     {
                         "type": "PowerShell",
                         "name": "Install Remote Desktop Session Host",
@@ -71,7 +81,31 @@
                         "type": "WindowsRestart",
                         "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > c:\\buildArtifacts\\azureImageBuilderRestart.txt",
                         "restartTimeout": "5m"
-                    },                    
+                    },
+                    {
+                        "type": "PowerShell",
+                        "name": "installFsLogix",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/jdrepo/AIB/main/InstallFSLogix.ps1"
+                    },
+                    {
+                        "type": "WindowsRestart",
+                        "restartCheckCommand": "write-host 'restarting post FSLogix Install'",
+                        "restartTimeout": "5m"
+                    },
+                    {
+                        "type": "PowerShell",
+                        "name": "Install Teams",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/jdrepo/AIB/main/install_update_teams.ps1"
+                    },
+                    {
+                        "type": "WindowsRestart",
+                        "restartCheckCommand": "write-host 'restarting post Teams Install'",
+                        "restartTimeout": "5m"
+                    },
                     {
                         "type": "WindowsUpdate",
                         "searchCriteria": "IsInstalled=0",
@@ -80,7 +114,20 @@
                             "include:$true"
                                     ],
                         "updateLimit": 40
-                    }
+                    },
+                    {
+                        "type": "WindowsRestart",
+                        "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM",
+                        "restartTimeout": "30m"
+                    },
+                    {
+                         "type": "PowerShell",
+                         "runElevated": true,
+                         "name": "DeprovisioningScript",
+                         "inline": [
+                           "((Get-Content -path C:\\DeprovisioningScript.ps1 -Raw) -replace 'Sysprep.exe /oobe /generalize /quiet /quit','Sysprep.exe /oobe /generalize /quit /mode:vm' ) | Set-Content -Path C:\\DeprovisioningScript.ps1"
+                          ]
+                     }
 
             ],
             "distribute": 
