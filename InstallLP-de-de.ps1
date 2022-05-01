@@ -12,7 +12,7 @@ write-host 'AIB Customization: Start Download Language Pack'
 $env:AZCOPY_CRED_TYPE = "Anonymous";
 $env:AZCOPY_BUFFER_GB = "1";
 Set-Location $azcopyloc
-c:\temp\azcopy.exe copy "https://saweuconfigjd.blob.core.windows.net/aib/w11-ml.zip?sv=2020-10-02&se=2022-05-26T21%3A33%3A53Z&sr=c&sp=rl&sig=LTnBGp7Fn5zKpmDYEBhLsPRNQCmnbtbGdP8JpnGIFdo%3D" $LpPath --overwrite=prompt --check-md5 FailIfDifferent --from-to=BlobLocal --recursive --log-level=INFO
+c:\temp\azcopy.exe copy "https://saweuconfigjd.blob.core.windows.net/aib/w11-ml.zip?sv=2020-10-02&st=2022-05-01T11%3A41%3A53Z&se=2032-05-02T11%3A41%3A00Z&sr=b&sp=r&sig=Qz1kQlG2Vq6cqPF1erJhPNqcb%2B5RqZfaNABb%2BFJyA3g%3D" $LpPath --overwrite=prompt --check-md5 FailIfDifferent --from-to=BlobLocal --recursive --log-level=INFO
 $env:AZCOPY_CRED_TYPE = "";
 write-host 'AIB Customization: Stop Download Language Pack'
 write-host 'AIB Customization: Start Expand Language Pack'
