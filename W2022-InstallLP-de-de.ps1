@@ -18,7 +18,6 @@ Set-Location $LpPath
 write-host 'AIB Customization: Start - Download Language Pack ISO'
 $env:AZCOPY_CRED_TYPE = "Anonymous";
 $env:AZCOPY_BUFFER_GB = "1";
-Set-Location $azcopyloc
 c:\temp\azcopy.exe copy "https://saweuconfigjd.blob.core.windows.net/aib/20348.1.210507-1500.fe_release_amd64fre_SERVER_LOF_PACKAGES_OEM.iso?sv=2020-10-02&st=2022-05-01T11%3A44%3A41Z&se=2032-05-02T11%3A44%3A00Z&sr=b&sp=r&sig=DugYYr8PeoZM7xnvvi6r97YdMJUfdWmAzvmVSwIXr30%3D" $LpPath --overwrite=prompt --check-md5 FailIfDifferent --from-to=BlobLocal --recursive --log-level=INFO
 $env:AZCOPY_CRED_TYPE = "";
 write-host 'AIB Customization: Complete - Download Language Pack ISO'
