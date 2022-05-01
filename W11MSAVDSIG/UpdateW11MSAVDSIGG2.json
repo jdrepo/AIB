@@ -52,33 +52,9 @@
                 },
                 "vmProfile": {
                     "vmSize": "Standard_B2s",
-                    "osDiskSizeGB": 127
+                    "osDiskSizeGB": 0
                 },
                 "customize": [
-                    {
-                        "type": "PowerShell",
-                        "runElevated": true,
-                        "runAsSystem": true,
-                        "name": "Invoke Optimize Script",
-                        "inline": [
-                            "[concat('$ScriptFromGitHub = Invoke-WebRequest ',parameters('ScriptUri'),' -UseBasicParsing')]",
-                            "Invoke-Expression $($ScriptFromGitHub.Content)"
-                        ]
-                    },
-                    {
-                        "type": "WindowsRestart",
-                        "restartTimeout": "30m"
-                    },
-                    {
-                        "type": "PowerShell",
-                        "runElevated": true,
-                        "runAsSystem": true,
-                        "name": "Retry failed attempts",
-                        "inline": [
-                            "[concat('$ScriptFromGitHub = Invoke-WebRequest ',parameters('ScriptUri'),' -UseBasicParsing')]",
-                            "Invoke-Expression $($ScriptFromGitHub.Content)"
-                        ]
-                    },
                     {
                         "type": "PowerShell",
                         "name": "installFsLogix",
