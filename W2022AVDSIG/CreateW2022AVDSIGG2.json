@@ -18,8 +18,6 @@
     
     "variables": {
     },
-
-
     "resources": [
       {
         "name": "[parameters('imageTemplateName')]",
@@ -34,8 +32,7 @@
             "identity": {
                 "type": "UserAssigned",
                         "userAssignedIdentities": {
-                        "<imgBuilderId>": {}
-                            
+                        "<imgBuilderId>": {}                            
                     }
                     },
         
@@ -67,6 +64,13 @@
                           "invoke-webrequest -uri 'https://aka.ms/downloadazcopy-v10-windows' -OutFile 'c:\\temp\\azcopy.zip'",
                           "Expand-Archive 'c:\\temp\\azcopy.zip' 'c:\\temp'",
                           "copy-item 'C:\\temp\\azcopy_windows_amd64_*\\azcopy.exe\\' -Destination 'c:\\temp'"]
+                    },
+                    {
+                        "type": "PowerShell",
+                        "name": "InstallLP-de-de",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/jdrepo/AIB/main/W2022-InstallLP-de-de.ps1"
                     },
                     {
                         "type": "PowerShell",
