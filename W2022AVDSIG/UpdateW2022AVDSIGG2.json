@@ -1,0 +1,121 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+        "UserAssignedId": {
+            "type": "string"
+        },
+        "SigResourceId": {
+            "type": "string"
+        },
+        "SigImageDefinition": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the SIG image"
+            }
+        },
+        "SigImageVersion": {
+            "type": "string",
+            "metadata": {
+                "description": "Version of the SIG image"
+            }
+        },
+        "SigSourceImageID": {
+            "type": "string",
+            "metadata": {
+                "description": "The source Image ID that will be used to create the image"
+            }
+        }
+    },
+    "variables": {
+        "imageTemplateName": "[concat(parameters('SigImageDefinition'),'_',parameters('SigImageVersion'))]",
+        "SIGId": "[concat(parameters('SigResourceId'),'/images/',parameters('SigImageDefinition'),'/versions/',parameters('SigImageVersion'))]"
+    },
+    "resources": [
+        {
+            "name": "[variables('imageTemplateName')]",
+            "type": "Microsoft.VirtualMachineImages/imageTemplates",
+            "apiVersion": "2020-02-14",
+            "location": "[resourcegroup().location]",
+            "dependsOn": [],
+            "properties": {
+                "buildTimeoutInMinutes": 100,
+                "source": {
+                    "type": "SharedImageVersion",
+                    "imageVersionId": "[parameters('SigSourceImageID')]"
+                },
+                "vmProfile": {
+                    "vmSize": "Standard_B2s",
+                    "osDiskSizeGB": 0
+                },
+                "customize": [
+                    {
+                        "type": "PowerShell",
+                        "name": "installFsLogix",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/jdrepo/AIB/main/InstallFSLogix.ps1"
+                    },
+                    {
+                        "type": "PowerShell",
+                        "name": "Install Teams",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/jdrepo/AIB/main/install_update_teams.ps1"
+                    },
+                    {
+                        "type": "WindowsRestart",
+                        "restartCheckCommand": "write-host 'restarting post Teams Install'",
+                        "restartTimeout": "5m"
+                    },
+                    {
+                        "type": "WindowsUpdate",
+                        "searchCriteria": "IsInstalled=0",
+                        "filters": [
+                            "exclude:$_.Title -like '*Preview*'",
+                            "include:$true"
+                                    ],
+                        "updateLimit": 40
+                    },
+                    {
+                        "type": "WindowsRestart",
+                         "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM",
+                        "restartTimeout": "30m"
+                    },
+                    {
+                         "type": "PowerShell",
+                         "runElevated": true,
+                         "name": "DeprovisioningScript",
+                         "inline": [
+                           "((Get-Content -path C:\\DeprovisioningScript.ps1 -Raw) -replace 'Sysprep.exe /oobe /generalize /quiet /quit','Sysprep.exe /oobe /generalize /quit /mode:vm' ) | Set-Content -Path C:\\DeprovisioningScript.ps1"
+                          ]
+                     }
+                ],
+                "distribute": [
+                    {
+                        "type": "SharedImage",
+                        "galleryImageId": "[variables('SIGId')]",
+                        "runOutputName": "AIBSIG",
+                        "artifactTags": {
+                            "source": "azureVmImageBuilder"
+                        },
+                        "replicationRegions": [
+                            "WestEurope"
+                        ]
+                    }
+                ]
+            },
+            "identity": {
+                "type": "UserAssigned",
+                "UserAssignedIdentities": {
+                    "[parameters('UserAssignedId')]": {}
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "ImageTemplateName": {
+            "type": "string",
+            "value": "[variables('imageTemplateName')]"
+        }
+    }
+}
