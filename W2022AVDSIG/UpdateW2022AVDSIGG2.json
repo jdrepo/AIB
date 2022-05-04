@@ -45,7 +45,7 @@
                     "imageVersionId": "[parameters('SigSourceImageID')]"
                 },
                 "vmProfile": {
-                    "vmSize": "Standard_B2s",
+                    "vmSize": "Standard_D2s_v3",
                     "osDiskSizeGB": 0
                 },
                 "customize": [
