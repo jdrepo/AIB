@@ -41,7 +41,7 @@
 
             "vmProfile": 
                     {
-                    "vmSize": "Standard_D2s_v3",
+                    "vmSize": "Standard_B2s",
                     "osDiskSizeGB": 63
                     },
         
@@ -54,6 +54,15 @@
                 
             },
             "customize": [
+                    {
+                        "type": "PowerShell",
+                        "name": "Extend OS Disk",
+                        "RunElevated" : true,
+                        "runAsSystem" : true,
+                        "inline": [
+                          "$driveletter = 'C'",
+                          "Resize-Partition -DriveLetter $driveletter -Size (Get-PartitionSupportedSize -DriveLetter $driveLetter).SizeMax"]
+                    },
                     {
                         "type": "PowerShell",
                         "name": "GetAzCopy",
