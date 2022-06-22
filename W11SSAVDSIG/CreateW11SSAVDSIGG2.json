@@ -51,7 +51,7 @@
                 "type": "PlatformImage",
                     "publisher": "MicrosoftWindowsDesktop",
                     "offer": "windows-11",
-                    "sku": "win11-21h2-avd",
+                    "sku": "win11-21h2-ent",
                     "version": "latest"         
             },
             "customize": [
