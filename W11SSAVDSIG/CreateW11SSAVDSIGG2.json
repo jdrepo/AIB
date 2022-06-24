@@ -68,6 +68,13 @@
                     },
                     {
                         "type": "PowerShell",
+                        "name": "InstallLP-de-de",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/jdrepo/AIB/main/W11-InstallLP-de-de.ps1"
+                    },
+                    {
+                        "type": "PowerShell",
                         "name": "installFsLogix",
                         "runElevated": true,
                         "runAsSystem": true,
