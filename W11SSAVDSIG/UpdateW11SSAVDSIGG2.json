@@ -45,7 +45,7 @@
             "location": "[resourcegroup().location]",
             "dependsOn": [],
             "properties": {
-                "buildTimeoutInMinutes": 100,
+                "buildTimeoutInMinutes": 120,
                 "source": {
                     "type": "SharedImageVersion",
                     "imageVersionId": "[parameters('SigSourceImageID')]"
