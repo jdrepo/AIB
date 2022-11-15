@@ -11,7 +11,7 @@ $fsLogixURL="https://aka.ms/fslogix_download"
 $installerFile="fslogix_download.zip"
 
 Invoke-WebRequest $fsLogixURL -OutFile $LocalPath\$installerFile
-Expand-Archive $LocalPath\$installerFile -DestinationPath $LocalPath
+Expand-Archive $LocalPath\$installerFile -DestinationPath $LocalPath -Force
 write-host 'AIB Customization: Download Fslogix installer finished'
 
 write-host 'AIB Customization: Start Fslogix installer'
