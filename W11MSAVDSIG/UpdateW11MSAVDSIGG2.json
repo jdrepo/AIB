@@ -65,7 +65,7 @@
                     },
                     {
                         "type": "WindowsRestart",
-                        "restartCheckCommand": "write-host 'restarting post Teams Install'",
+                        "restartCheckCommand": "echo Restarting VM post Teams Install",
                         "restartTimeout": "15m"
                     },
                     {
